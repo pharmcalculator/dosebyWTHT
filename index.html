@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Dose Calculator by Body Weight and Height</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .disclaimer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+        .disclaimer p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Total Dose Calculator by Body Weight and Height</h2>
+        <label for="height_cm">Height (cm):</label>
+        <input type="number" id="height_cm" min="1" step="any">
+        <label for="weight_kg">Weight (kg):</label>
+        <input type="number" id="weight_kg" min="1" step="any">
+        <label for="mg_per_m2">mg/m²:</label>
+        <input type="number" id="mg_per_m2" min="1" step="any">
+        <label for="frequency">Frequency of Treatment:</label>
+        <select id="frequency">
+            <option value="1">Once a day</option>
+            <option value="2">Twice a day</option>
+            <option value="3">Three times a day</option>
+            <option value="4">Four times a day</option>
+        </select>
+        <label for="duration_days">Duration of Treatment (Days):</label>
+        <input type="number" id="duration_days" min="1" step="1">
+        <button onclick="calculateDosage()">Calculate Total MG</button>
+        <div id="result"></div>
+    </div>
+
+    <div class="disclaimer">
+        <p><strong>Disclaimer:</strong> This calculator provides an estimate of the total dosage needed for a given treatment regimen. The calculation is based on the Body Surface Area (BSA) calculated using the DuBois formula:</p>
+        <p style="margin-left: 20px;"><img src="https://latex.codecogs.com/svg.latex?\Large&space;BSA=\sqrt{\left(\frac{{\text{height (cm)} \times \text{weight (kg)}}}{3600}\right)}"/></p>
+        <p>Once the BSA is calculated, the total dosage needed for the entire treatment period is determined using the following equation:</p>
+        <p style="margin-left: 20px;"><img src="https://latex.codecogs.com/svg.latex?\Large&space;\text{Total Dosage}=BSA \times \text{Dose per } m^2 \times \text{Frequency} \times \text{Duration of Treatment (Days)}"/></p>
+        <p>Where:</p>
+        <ul>
+            <li><strong>BSA</strong> is the Body Surface Area calculated using the DuBois formula.</li>
+            <li><strong>Dose per \( m^2 \)</strong> is the prescribed dose per square meter of body surface area.</li>
+            <li><strong>Frequency</strong> is the frequency of treatment per day (e.g., once, twice, three times, or four times a day).</li>
+            <li><strong>Duration of Treatment (Days)</strong> is the total number of days for the treatment regimen.</li>
+        </ul>
+        <p>Please note that this calculator provides an estimate and should not replace medical advice. Always consult with a healthcare professional for accurate dosing recommendations.</p>
+    </div>
+
+    <script>
+        function calculateDosage() {
+            var height_cm = parseFloat(document.getElementById("height_cm").value);
+            var weight_kg = parseFloat(document.getElementById("weight_kg").value);
+            var mg_per_m2 = parseFloat(document.getElementById("mg_per_m2").value);
+            var frequency = parseInt(document.getElementById("frequency").value);
+            var duration_days = parseInt(document.getElementById("duration_days").value);
+
+            // Calculate BSA using the DuBois formula
+            var bsa = Math.sqrt((height_cm * weight_kg) / 3600);
+
+            // Calculate the total dosage needed for the entire treatment period
+            var totalDosage = bsa * mg_per_m2 * frequency * duration_days;
+
+            // Display the result
+            var resultText = "Total MG Needed: " + totalDosage.toFixed(2) + " mg";
+
+            document.getElementById("result").innerHTML = resultText;
+        }
+    </script>
+</body>
+</html>
